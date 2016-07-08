@@ -1,3 +1,141 @@
-<h1>
-  {{title}}
-</h1>
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">igSlither</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://slither.io">slither.io</a></li>
+        <li><a href="#">userscript</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+      <!--
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default" disabled>
+            <div class="panel-heading">
+              <h3 class="panel-title">Play Now</h3>
+            </div>
+            <div class="panel-body">
+              <form>
+                <div class="form-group">
+                  <label for="nameInput">Your Name</label>
+                  <input [(ngModel)]="fname" type="text" class="form-control" id="nameInput" placeholder="Name">
+                </div>
+                <div class="form-group">
+                  <label for="unameInput">Snake Name</label>
+                  <input [(ngModel)]="uname" type="text" class="form-control" id="unameInput" placeholder="Snake Name">
+                </div>
+                <div class="form-group">
+                  <label for="serverInput">Server #</label>
+                  <input [(ngModel)]="server" type="text" class="form-control" id="serverInput" placeholder="Server Number">
+                </div>
+                <button (click)="playGame()" aria-colcount=""type="button" class="btn btn-primary pull-right">Play</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      -->
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Current Goal</h3>
+            </div>
+            <div class="panel-body">
+              Beat Kyle!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Coming Soon</h3>
+            </div>
+            <div class="panel-body">
+              <li>Multiple teams</li>
+              <li>Pretty charts</li>
+              <li>Interesting statistics</li>
+              <li>Improved game HUD</li>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">All Time Top</h3>
+            </div>
+            <ol class="list-group">
+              <li class="list-group-item" *ngFor="let item of topTen; let i = index">
+                <span class="badge">{{item.score}}</span>
+                #{{i+1}} - {{item.player}}
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Weekly Top 5</h3>
+            </div>
+            <ol class="list-group">
+              <li class="list-group-item" *ngFor="let item of thisWeek; let i = index">
+                <span class="badge">{{item.score}}</span>
+                #{{i+1}} - {{item.player}}
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Personal Highs</h3>
+            </div>
+            <ol class="list-group">
+              <li class="list-group-item" *ngFor="let item of personalTop; let i = index">
+                <span class="badge">{{item.score}}</span>
+                {{item.player}}
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
