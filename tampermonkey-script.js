@@ -10,5 +10,5 @@
 // @run-at       document-body
 // @grant        none
 // @require https://www.gstatic.com/firebasejs/3.1.0/firebase.js
-// @require https://www.gstatic.com/firebasejs/3.1.0/firebase.js
+// @require https://raw.githubusercontent.com/joshbeitler/slither/master/script-src.js
 // ==/UserScript==
