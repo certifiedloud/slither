@@ -27,24 +27,37 @@
   }
 
   function quickConnect(ip) {
-    if (ip || !window.connect) {
-      return;
-    }
+    // if (ip || !window.connect) {
+    //   return;
+    // }
 
-    window.forcing = true;
+    // window.forcing = true;
 
-    if (!window.bso) {
-      window.bso = {};
-    }
+    // if (!window.bso) {
+    //   window.bso = {};
+    // }
 
-    var srv = ip.trim().split(":");
+    // var srv = ip.trim().split(":");
 
-    window.bso.ip = srv[0];
-    window.bso.po = srv[1];
+    // window.bso.ip = srv[0];
+    // window.bso.po = srv[1];
 
-    window.connect();
+    // window.connect();
 
-    setTimeout(connectionStatus, 1000);
+    // setTimeout(connectionStatus, 1000);
+
+      var a = ip.split(':')[0];
+      var b = ip.split(':')[1];
+
+      sos = [];
+      forcing = true;
+      bso = {};
+      bso.ip = a;
+      bso.po = b;
+      bso.ac = 999;
+      sos.push(bso);
+
+      window.connect();
   }
 
   /**
@@ -169,13 +182,9 @@
       var serverNum = hash.split(',')[1].split('=')[1];
 
       setTimeout(function() {
-        // var servers = window.sos.slice().sort(function(a, b) {
-        //   return (a.ip - b.ip) - (a.po - b.po);
-        // });
-
-        // document.getElementById("nick").value = playerName;
-        // quickConnect(servers[serverNum].ip + ":" + servers[serverNum].po);
-        // connect();
+        document.getElementById("nick").value = playerName;
+        quickConnect(sos[serverNum].ip + ":" + sos[serverNum].po);
+        connect();
       }, 1000);
     }
 
