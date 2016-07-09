@@ -107,7 +107,7 @@
             <ol class="list-group">
               <li class="list-group-item" *ngFor="let item of personalTop; let i = index">
                 <span class="badge">{{item.score}}</span>
-                {{item.player}}
+                {{item.owner | titleCase}} - <span class="text-muted">{{item.date | dateFormat}}</span>
               </li>
             </ol>
           </div>

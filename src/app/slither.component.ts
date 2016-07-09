@@ -31,27 +31,44 @@ export class SlitherAppComponent {
   constructor(af: AngularFire) {
     this.scores = af.database.list('scores');
 
+    if (localStorage.getItem('fullName')) {
+      this.fname = localStorage.getItem('fullName');
+    }
+
     this.scores.forEach(element => {
       var top = element.slice();
+      var names = [];
 
+      // All time top 10
+      this.topTen = top.slice().sort((a, b) => b.score - a.score).slice(0, 10);
+
+      // Weekly top 5
       this.thisWeek = top.filter((item) => {
         return item.date > new Date().getDate() - 7;
       }).sort((a, b) => b.score - a.score).slice(0, 5);
 
-      this.topTen = top.slice().sort((a, b) => b.score - a.score).slice(0, 10);
+      // Personal bests
+      top.forEach(topEl => {
+        var alreadyExists = false;
 
-      if (localStorage.getItem('fullName')) {
-        this.fname = localStorage.getItem('fullName');
-      }
+        for (var i = 0; i < names.length; i++) {
+          if (names[i].owner === topEl.owner) {
+            alreadyExists = true;
 
-      // TODO: sort personal bests here
-      // this.topTen.slice().forEach(topEl => {
-      //   for (var i = 0, len = top.slice().length; i < len; i++) {
-      //     if (top.slice()[i].player !== topEl.player) {
-      //       this.personalTop.push(topEl);
-      //     }
-      //   }
-      // });
+            if (names[i].score < topEl.score) {
+              names.splice(i, 1);
+              alreadyExists = false;
+            }
+            break;
+          }
+        }
+
+        if (!alreadyExists && topEl.owner.length > 0) {
+          names.push(topEl);
+        }
+      });
+
+      this.personalTop = names;
     });
   }
 }
