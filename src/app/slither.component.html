@@ -91,7 +91,7 @@
             <ol class="list-group">
               <li class="list-group-item" *ngFor="let item of topTen; let i = index">
                 <span class="badge">{{item.score}}</span>
-                #{{i+1}} - {{item.player}}
+                #{{i+1}} - {{item.owner | titleCase}} (as {{item.player}})
               </li>
             </ol>
           </div>
@@ -109,7 +109,7 @@
             <ol class="list-group">
               <li class="list-group-item" *ngFor="let item of thisWeek; let i = index">
                 <span class="badge">{{item.score}}</span>
-                #{{i+1}} - {{item.player}}
+                #{{i+1}} - {{item.owner | titleCase}} (as {{item.player}})
               </li>
             </ol>
           </div>

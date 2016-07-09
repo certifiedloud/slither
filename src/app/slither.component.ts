@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { TitleCase } from './title-case.pipe';
 
 @Component({
   moduleId: module.id,
   selector: 'slither-app',
   templateUrl: 'slither.component.html',
-  styleUrls: ['slither.component.css']
+  styleUrls: ['slither.component.css'],
+  pipes: [TitleCase]
 })
 export class SlitherAppComponent {
   title = 'slither works!';
@@ -21,7 +23,7 @@ export class SlitherAppComponent {
   server = ''; //206.191.154.41:444
 
   playGame() {
-    window.open(`http://slither.io/#name=${this.uname},svn=${this.server}`, '_blank');
+    window.open(`http://slither.io/#name=${this.uname},svn=${this.server},player=${this.fname}`, '_blank');
   }
 
   constructor(af: AngularFire) {

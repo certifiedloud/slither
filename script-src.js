@@ -10,11 +10,20 @@
 
   var compass = [];
   var hash = window.location.hash.substring(1);
-  var playerName = '';
+  var nickname = '';
   var serverIP = '';
+  var player = '';
+  var serverNum = 0;
   var retry = 0;
 
   firebase.initializeApp(config);
+  var snakesRef = firebase.database().ref('snakes');
+
+  if (hash) {
+    nickname = hash.split(',')[0].split('=')[1];
+    serverNum = hash.split(',')[1].split('=')[1];
+    player = hash.split(',')[2].split('=')[1];
+  }
 
   function connectionStatus() {
     if (!window.connecting || retry == 10) {
@@ -27,37 +36,18 @@
   }
 
   function quickConnect(ip) {
-    // if (ip || !window.connect) {
-    //   return;
-    // }
+    var a = ip.split(':')[0];
+    var b = ip.split(':')[1];
 
-    // window.forcing = true;
+    sos = [];
+    forcing = true;
+    bso = {};
+    bso.ip = a;
+    bso.po = b;
+    bso.ac = 999;
+    sos.push(bso);
 
-    // if (!window.bso) {
-    //   window.bso = {};
-    // }
-
-    // var srv = ip.trim().split(":");
-
-    // window.bso.ip = srv[0];
-    // window.bso.po = srv[1];
-
-    // window.connect();
-
-    // setTimeout(connectionStatus, 1000);
-
-      var a = ip.split(':')[0];
-      var b = ip.split(':')[1];
-
-      sos = [];
-      forcing = true;
-      bso = {};
-      bso.ip = a;
-      bso.po = b;
-      bso.ac = 999;
-      sos.push(bso);
-
-      window.connect();
+    window.connect();
   }
 
   /**
@@ -70,7 +60,7 @@
           xx: window.snake.xx,
           yy: window.snake.yy,
           nk: window.snake.nk,
-          // dead: window.snake.dead,
+          room: serverNum,
           csw: window.snake.csw
         }
       });
@@ -133,8 +123,8 @@
     firebase.database().ref('scores').push({
       score: calculateScore(),
       player: window.snake.nk,
-      date: Date.now(),
-      reverseDate: (0 - Date.now()) // Firebase doesn't allow for proper reverse sorting
+      owner: player.toLowerCase(),
+      date: Date.now()
     });
   }
 
@@ -144,45 +134,44 @@
    * about reinitilizing it too many times.
    */
   function findFriends() {
-    var snakesRef = firebase.database().ref('snakes');
+    snakesRef.once('value').then(function(data) {
+      for (var i in data.val()) {
+        var newSnake = data.val()[i].snake;
 
-    snakesRef.on('child_changed', function(data) {
-      var newSnake = data.val().snake;
+        if (newSnake.room === serverNum && newSnake.nk !== window.snake.nk) {
+          var pointExists = false;
 
-      if (newSnake.nk !== window.snake.nk) {
-        var pointExists = false;
-
-        for (var point in compass) {
-          if (compass[point].id === newSnake.nk.split(' ')[0]) {
-            pointExists = true;
-            break;
+          for (var point in compass) {
+            if (compass[point].id === newSnake.nk.split(' ')[0]) {
+              pointExists = true;
+              break;
+            }
           }
+
+          if (!pointExists) {
+            addCompassPoint(newSnake);
+          }
+
+          var newX = newSnake.xx;
+          var newY = newSnake.yy;
+
+          var posX = window.snake.xx;
+          var posY = window.snake.yy;
+
+          var angle = Math.atan2(newY - posY, newX - posX) * 180 / Math.PI;
+
+          updateCompassPoint(angle, newSnake);
         }
-
-        if (!pointExists) {
-          addCompassPoint(newSnake);
-        }
-
-        var newX = newSnake.xx;
-        var newY = newSnake.yy;
-
-        var posX = window.snake.xx;
-        var posY = window.snake.yy;
-
-        var angle = Math.atan2(newY - posY, newX - posX) * 180 / Math.PI;
-
-        updateCompassPoint(angle, newSnake);
       }
     });
   }
 
   document.addEventListener("DOMContentLoaded", function(event) {
-    if (hash) {
-      playerName = hash.split(',')[0].split('=')[1];
-      var serverNum = hash.split(',')[1].split('=')[1];
+    snakesRef.remove();
 
+    if (hash) {
       setTimeout(function() {
-        document.getElementById("nick").value = playerName;
+        document.getElementById("nick").value = nickname;
         quickConnect(sos[serverNum].ip + ":" + sos[serverNum].po);
         connect();
       }, 1000);
