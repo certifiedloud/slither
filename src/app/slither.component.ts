@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { TitleCase } from './title-case.pipe';
+import { DateFormat } from './date-format.pipe';
 
 @Component({
   moduleId: module.id,
   selector: 'slither-app',
   templateUrl: 'slither.component.html',
   styleUrls: ['slither.component.css'],
-  pipes: [TitleCase]
+  pipes: [TitleCase, DateFormat]
 })
 export class SlitherAppComponent {
   title = 'slither works!';
@@ -20,9 +21,10 @@ export class SlitherAppComponent {
 
   fname = '';
   uname = '';
-  server = ''; //206.191.154.41:444
+  server = '';
 
   playGame() {
+    localStorage.setItem('fullName', this.fname);
     window.open(`http://slither.io/#name=${this.uname},svn=${this.server},player=${this.fname}`, '_blank');
   }
 
@@ -37,6 +39,10 @@ export class SlitherAppComponent {
       }).sort((a, b) => b.score - a.score).slice(0, 5);
 
       this.topTen = top.slice().sort((a, b) => b.score - a.score).slice(0, 10);
+
+      if (localStorage.getItem('fullName')) {
+        this.fname = localStorage.getItem('fullName');
+      }
 
       // TODO: sort personal bests here
       // this.topTen.slice().forEach(topEl => {

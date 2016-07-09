@@ -1,0 +1,8 @@
+html, p, div, span, body {
+  font-family: 'Lato', sans-serif;
+}
+
+.navbar-brand {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+}

@@ -84,24 +84,6 @@
     <div class="col-sm-4">
       <div class="row">
         <div class="col-sm-12">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <h3 class="panel-title">All Time Top</h3>
-            </div>
-            <ol class="list-group">
-              <li class="list-group-item" *ngFor="let item of topTen; let i = index">
-                <span class="badge">{{item.score}}</span>
-                #{{i+1}} - {{item.owner | titleCase}} (as {{item.player}})
-              </li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-4">
-      <div class="row">
-        <div class="col-sm-12">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Weekly Top 5</h3>
@@ -109,7 +91,7 @@
             <ol class="list-group">
               <li class="list-group-item" *ngFor="let item of thisWeek; let i = index">
                 <span class="badge">{{item.score}}</span>
-                #{{i+1}} - {{item.owner | titleCase}} (as {{item.player}})
+                #{{i+1}} - {{item.owner | titleCase}} (as {{item.player}}) - <span class="text-muted">{{item.date | dateFormat}}</span>
               </li>
             </ol>
           </div>
@@ -126,6 +108,24 @@
               <li class="list-group-item" *ngFor="let item of personalTop; let i = index">
                 <span class="badge">{{item.score}}</span>
                 {{item.player}}
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">All Time Top</h3>
+            </div>
+            <ol class="list-group">
+              <li class="list-group-item" *ngFor="let item of topTen; let i = index">
+                <span class="badge">{{item.score}}</span>
+                #{{i+1}} - {{item.owner | titleCase}} (as {{item.player}}) - <span class="text-muted">{{item.date | dateFormat}}</span>
               </li>
             </ol>
           </div>
