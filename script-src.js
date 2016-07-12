@@ -78,42 +78,39 @@
    * Add a new compass point for each new player in your posse
    */
   function addCompassPoint(snake) {
-    var newPoint = document.createElement('div');
+    console.log("adding point")
+    var newloc = document.createElement('div');
+    newloc.id = 'compass_' + snake.nk.split(' ')[0];
+    newloc.className = "snakepos";
+    newloc.style.position = "absolute";
+    newloc.style.left = "0px";
+    newloc.style.top = "0px";
+    newloc.style.width = "4px";
+    newloc.style.height = "4px";
+    newloc.style.backgroundColor = window.snake.csw;
+    newloc.style.opacity = 1;
+    newloc.style.zIndex = 13;
+    loch.appendChild(newloc);
 
-    newPoint.id = 'compass_' + snake.nk.split(' ')[0];
-    newPoint.className = 'compassPoint';
-    newPoint.style.position = 'absolute';
-    newPoint.style.top = '50px';
-    newPoint.style.left = ((compass.length + 1) * 50) + 'px';
-    newPoint.style.zIndex = '99998';
-    newPoint.style.webkitTransition = 'all 0.5s ease-in-out';
-    newPoint.style.transition = 'all 0.5s ease-in-out';
-    newPoint.style.opacity = '1.0';
-    newPoint.innerHTML = '<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"/><path d="M0-.25h24v24H0z" fill="none"/></svg>';
-    newPoint.fill = '#ffffff';
-
-    document.getElementsByTagName('body')[0].appendChild(newPoint);
-    compass.push({ point: newPoint, id: snake.nk.split(' ')[0] });
+    compass.push({ point: newloc, id: snake.nk.split(' ')[0] });
   }
 
   /**
    * Calculate offset and update the compass point so you can find your buddies
    */
-  function updateCompassPoint(deg, snake) {
+  function updateCompassPoint(snake) {
     var point = document.querySelector('#compass_' + snake.nk.split(' ')[0]);
-
     if (point) {
-      point.style.webkitTransform = 'rotate(' + deg + 'deg)';
-      point.style.webkitTransform = 'rotate(' + deg + 'deg)';
-      point.style.fill = snake.csw;
-      point.style.opacity = '1.0';
+      point.style.left = Math.round(52 + 40 * (snake.xx - grd) / grd - 7) + "px";
+      point.style.top = Math.round(52 + 40 * (snake.yy - grd) / grd - 7) + "px";
+      point.style.backgroundColor = window.snake.csw;
+      if (snake.dead) {
+        point.style.backgroundColor = "#FF0000";
+      }
     } else {
       return;
     }
 
-    if (snake.dead) {
-      point.style.opacity = '.2';
-    }
   }
 
   /**
@@ -137,13 +134,16 @@
     snakesRef.once('value').then(function(data) {
       for (var i in data.val()) {
         var newSnake = data.val()[i].snake;
+        console.log("created new snake")
 
         if (newSnake.room === serverNum && newSnake.nk !== window.snake.nk) {
+          console.log("point doesn't exist")
           var pointExists = false;
 
           for (var point in compass) {
             if (compass[point].id === newSnake.nk.split(' ')[0]) {
               pointExists = true;
+              console.log("point exists")
               break;
             }
           }
@@ -151,16 +151,7 @@
           if (!pointExists) {
             addCompassPoint(newSnake);
           }
-
-          var newX = newSnake.xx;
-          var newY = newSnake.yy;
-
-          var posX = window.snake.xx;
-          var posY = window.snake.yy;
-
-          var angle = Math.atan2(newY - posY, newX - posX) * 180 / Math.PI;
-
-          updateCompassPoint(angle, newSnake);
+          updateCompassPoint(newSnake);
         }
       }
     });
