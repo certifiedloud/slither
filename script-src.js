@@ -78,7 +78,6 @@
    * Add a new compass point for each new player in your posse
    */
   function addCompassPoint(snake) {
-    console.log("adding point")
     var newloc = document.createElement('div');
     newloc.id = 'compass_' + snake.nk.split(' ')[0];
     newloc.className = "snakepos";
@@ -134,16 +133,13 @@
     snakesRef.once('value').then(function(data) {
       for (var i in data.val()) {
         var newSnake = data.val()[i].snake;
-        console.log("created new snake")
 
         if (newSnake.room === serverNum && newSnake.nk !== window.snake.nk) {
-          console.log("point doesn't exist")
           var pointExists = false;
 
           for (var point in compass) {
             if (compass[point].id === newSnake.nk.split(' ')[0]) {
               pointExists = true;
-              console.log("point exists")
               break;
             }
           }
