@@ -87,7 +87,7 @@
     newloc.style.top = "0px";
     newloc.style.width = "4px";
     newloc.style.height = "4px";
-    newloc.style.backgroundColor = window.snake.csw;
+    newloc.style.backgroundColor = "#008000";
     newloc.style.opacity = 1;
     newloc.style.zIndex = 13;
     loch.appendChild(newloc);
@@ -103,7 +103,9 @@
     if (point) {
       point.style.left = Math.round(52 + 40 * (snake.xx - grd) / grd - 7) + "px";
       point.style.top = Math.round(52 + 40 * (snake.yy - grd) / grd - 7) + "px";
-      point.style.backgroundColor = window.snake.csw;
+      point.style.backgroundColor = "#008000";
+      point.style.border = "1px solid #000";
+      point.style.borderRadius = "50%";
       if (snake.dead) {
         point.style.backgroundColor = "#FF0000";
       }
